@@ -1,0 +1,8 @@
+services:
+  who-am-i:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8820:8820"
+    restart: unless-stopped
