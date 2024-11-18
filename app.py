@@ -1,7 +1,13 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import socket
 
 app = Flask(__name__)
+
+#cors allow all
+CORS(app)
+
+
 
 @app.route('/hostname', methods=['GET'])
 def get_computer_name():
