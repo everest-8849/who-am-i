@@ -12,11 +12,12 @@ CORS(app)
 @app.route('/hostname', methods=['GET'])
 def get_computer_name():
     client_ip = request.remote_addr
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     try:
         hostname, _, _ = socket.gethostbyaddr(client_ip)
-        return jsonify({'client_ip': client_ip, 'computer_name': hostname})
+        return jsonify({'client_ip': client_ip, 'hostname': hostname, 'found': True})
     except socket.herror:
-        return jsonify({'client_ip': client_ip, 'error': 'Hostname not found'}), 404
+        return jsonify({'client_ip': client_ip, 'error': 'Hostname not found', 'found': False}), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8820)

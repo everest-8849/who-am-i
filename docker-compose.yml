@@ -3,6 +3,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+        # network_mode: host
     ports:
       - "8820:8820"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`whoami.8849.studio`)
+      - traefik.http.routers.whoami.tls=true
+      - traefik.http.routers.whoami.tls.certresolver=cloudflareResolver
+      - traefik.enable=true
     restart: unless-stopped
+    networks:
+      - traefiknet
+
+networks:
+  traefiknet:
+    name: traefiknet
+    external: true
+
